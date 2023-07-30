@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::render::{mesh::*, render_resource::*};
-
+use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
 pub struct Sprite3dPlugin;
@@ -441,7 +441,7 @@ impl AtlasSprite3d {
             mesh_keys.push(mesh_key);
 
             // if we don't have a mesh in the cache, create it.
-            if !params.sr.mesh_cache.contains_key(&mesh_key) {
+            if let Entry::Vacant(e) = params.sr.mesh_cache.entry(mesh_key) {
                 let mut mesh = quad(w, h, Some(pivot), self.double_sided);
                 mesh.insert_attribute(
                     Mesh::ATTRIBUTE_UV_0,
@@ -457,7 +457,7 @@ impl AtlasSprite3d {
                     ],
                 );
                 let mesh_h = params.meshes.add(mesh);
-                params.sr.mesh_cache.insert(mesh_key, mesh_h);
+                e.insert(mesh_h);
             }
         }
 
