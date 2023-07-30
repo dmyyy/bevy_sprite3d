@@ -1,7 +1,9 @@
+use bevy::ecs::system::SystemParam;
 use bevy::prelude::*;
 use bevy::render::{mesh::*, render_resource::*};
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
+use std::marker::PhantomData;
 
 pub struct Sprite3dPlugin;
 impl Plugin for Sprite3dPlugin {
@@ -13,9 +15,6 @@ impl Plugin for Sprite3dPlugin {
 
 // sizes are multiplied by this, then cast to ints to query the mesh hashmap.
 const MESH_CACHE_GRANULARITY: f32 = 1000.;
-
-use bevy::ecs::system::SystemParam;
-use std::marker::PhantomData;
 
 // everything needed to register a sprite, passed in one go.
 #[derive(SystemParam)]
